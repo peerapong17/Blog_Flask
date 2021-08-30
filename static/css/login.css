@@ -1,0 +1,35 @@
+.login-box {
+    width: 400px;
+    height: auto;
+    background: rgb(206, 245, 255);
+    padding: 30px 20px;
+    border-radius: 7px;
+    box-shadow: 0px 1px 5px rgb(219, 219, 219);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .container {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .noAccount {
+    text-align: end;
+    margin-bottom: 7px;
+    text-decoration: none;
+  }
+
+  .noAccount:hover {
+    text-decoration: underline;
+  }
+
+  .btn {
+    font-size: large;
+  }
+
+  .flashes{
+    width: 100%;
+  }
