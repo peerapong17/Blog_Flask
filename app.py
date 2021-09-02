@@ -1,31 +1,13 @@
-from flask import Flask, redirect, render_template, url_for, request, session, flash
-from datetime import timedelta
-from flask_sqlalchemy import SQLAlchemy
-from blog import blog
-
-app = Flask(__name__)
-app.secret_key = "my little secrets"
-app.permanent_session_lifetime = timedelta(days=30)
-app.register_blueprint(blog, url_prefix="/blog")
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
-db = SQLAlchemy(app)
-
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(100), unique=True, nullable=False)
-    password = db.Column(db.String(100), nullable=False)
-
-    def __init__(self, username, email, password):
-        self.username = username
-        self.email = email
-        self.password = password
+from models import User
+from __init__ import app, db
+from forms import LoginForm, RegisForm
+from flask_login import login_user, login_required, logout_user, current_user
+from flask import redirect, render_template, url_for, request, flash
 
 
 @app.route("/")
 def index():
-    if "user" in session:
+    if current_user.is_authenticated:
         return redirect(url_for("blog.home"))
     else:
         return redirect(url_for("login"))
@@ -33,64 +15,52 @@ def index():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-    if request.method == "GET":
-        if "user" in session:
-            return redirect(url_for("blog.home"))
-        else:
-            return render_template("auth/login.html")
-    else:
-        session.permanent = True
-        email = request.form['email']
-        password = request.form['password']
-        found_email = User.query.filter_by(email=email).first()
-        found_password = User.query.filter_by(password=password).first()
-        print(found_email, found_password)
-        if found_email == None:
+    form = LoginForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user == None:
             flash("Email is invalid", "error")
-            return render_template("auth/login.html")
-        elif found_password == None:
-            flash("password is invalid", "error")
-            return render_template("auth/login.html")
-        session['user'] = email
-        return redirect(url_for("blog.home"))
+        elif not user.check_password(form.password.data):
+            flash("Password is invalid", "error")
+        elif user.check_password(form.password.data) and user is not None:
+            login_user(user)
+            next = request.args.get('next')
+            if next == None or not next[0] == '/':
+                next = url_for('blog.home')
+
+            return redirect(next)
+    return render_template("auth/login.html", form=form)
 
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
-    if request.method == "GET":
-        if "user" in session:
-            return redirect(url_for("blog.home"))
-        else:
-            return render_template("auth/register.html")
-    else:
+    form = RegisForm()
+    if request.method == 'POST' and form.validate_on_submit():
         db.create_all()
-        username = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
-        found_user = User.query.filter_by(email=email).first()
-        if found_user:
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
             flash("This email already exist!", "error")
-        elif len(password) < 6:
-            flash("Password should be at least 6 characters!", "error")
         else:
-            user = User(username, email, password)
+            user = User(username=form.username.data,
+                        email=form.email.data, password=form.password.data)
             db.session.add(user)
             db.session.commit()
             flash("Create account success!", "success")
-        return render_template("auth/register.html")
+            return redirect(url_for("login"))
 
-
-@app.route("/get-user")
-def getUser():
-    # allUser = User.query.all()
-    found_user = User.query.filter_by(email="test@gmail.com").first()
-    return f"this is all user found:{found_user.email} {found_user.username}"
+    return render_template("auth/register.html", form=form)
 
 
 @app.route("/logout")
+@login_required
 def logout():
-    session.pop("user", None)
+    logout_user()
     return redirect(url_for("login"))
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html"), 404
 
 
 if __name__ == "__main__":

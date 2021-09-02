@@ -25,6 +25,9 @@
           <a class="nav-link" href="{{ url_for('blog.userBlog') }}">my blog</a>
         </div>
         <div style="flex: 1;"></div>
+        <div class="navbar-nav mr-4">
+          <a class="nav-link" href="{{ url_for('blog.userInformation') }}">Information</a>
+        </div>
         <form action="{{ url_for('logout')}}" method="GET">
           <button class="btn btn-danger">Logout</button>
         </form>

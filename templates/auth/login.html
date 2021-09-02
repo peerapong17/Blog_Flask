@@ -8,30 +8,38 @@
 
 <div class="container">
   <div class="secondContainer">
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    {% for message in messages %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        {% if category == "success" %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% else %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    {% for field, errors in form.errors.items() %}
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-      {{message}}
+      {{ ', '.join(errors) }}
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     {% endfor %}
-    </ul>
-    {% endif %}
-    {% endwith %}
     <form action="{{ url_for('login') }}" method="POST" class="login-box">
-      <div class="mb-3">
-        <label class="form-label">Email address</label>
-        <input name="email" type="email" class="form-control">
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Password</label>
-        <input name="password" type="password" class="form-control">
-      </div>
+      {{form.hidden_tag()}}
+      {{form.email.label}} {{form.email(class="email form-control mb-3")}}
+      {{form.password.label}} {{form.password(class="password form-control mb-3")}}
       <a href="{{ url_for('register') }}" class="noAccount">Don't have an account?</a>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      {{ form.submit(class="btn btn-primary") }}
     </form>
   </div>
 </div>
 
 {% endblock %}
+

@@ -1,25 +1,36 @@
-from flask import render_template, session, Blueprint, redirect, url_for
+from forms import InfoForm
+from flask_login import login_required
+from flask import render_template,  Blueprint, request
 
-blog = Blueprint("blog", __name__,static_folder="static", template_folder="templates")
+blog = Blueprint("blog", __name__, static_folder="static",
+                 template_folder="templates")
+
 
 @blog.route("/")
+@login_required
 def home():
-    if "user" in session:
-        return render_template("blog/home.html", user=session['user'])
-    else:
-        return redirect(url_for("login"))
+    return render_template("blog/home.html")
+
 
 @blog.route("/create-blog")
+@login_required
 def createBlog():
-    if "user" in session:
-        return render_template("blog/create_blog.html")
-    else:
-        return redirect(url_for("login"))
+    return render_template("blog/create_blog.html")
 
 
 @blog.route("/user-blog")
+@login_required
 def userBlog():
-    if "user" in session:
-        return render_template("blog/user_blog.html")
-    else:
-        return redirect(url_for("login"))
+    return render_template("blog/user_blog.html")
+
+
+@blog.route("/user-information", methods=["GET", "POST"])
+@login_required
+def userInformation():
+    form = InfoForm()
+    fname = False
+    lname = False
+    if request.method == 'POST' and form.validate_on_submit():
+        fname = form.firstName.data
+        lname = form.lastName.data
+    return render_template("blog/information.html", form=form, fname=fname, lname=lname)

@@ -1,0 +1,35 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 120px 0px;
+}
+
+.error {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background: rgb(255, 227, 227);
+    padding: 50px;
+    height: 100%;
+    border-radius: 7px;
+}
+
+h1{
+    font-size: 50px;
+}
+
+a{
+    font-size: 33px;
+    font-weight: 600;
+    text-decoration: none;
+    margin-top: 30px;
+}
+
+a:hover{
+    text-decoration: underline;
+}

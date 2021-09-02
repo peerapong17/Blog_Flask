@@ -18,7 +18,6 @@
 
 .haveAccount {
     text-align: end;
-    margin-bottom: 7px;
     text-decoration: none;
 }
 
@@ -30,11 +29,13 @@
     background-color: rgb(255, 93, 247);
     border: 2px solid rgb(255, 93, 247);
     font-size: large;
+    color: white;
 }
 
 .btn:hover {
     background-color: rgb(255, 14, 243);
     border: 2px solid rgb(255, 14, 243);
+    color: white;
 }
 
 .flashes{

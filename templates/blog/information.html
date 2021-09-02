@@ -1,0 +1,27 @@
+{% extends 'layout/home_layout.html' %}
+
+{% block content %}
+
+<style>
+    .container {
+        display: flex;
+        justify-content: center;
+    }
+</style>
+
+
+<div class="container">
+    <form class="col-6" method="POST">
+        {% for field, errors in form.errors.items() %}
+        <p>
+            {{ ', '.join(errors) }}
+        </p>
+        {% endfor %}
+
+        {{form.hidden_tag()}}
+        <div class="mt-3">{{ form.firstName.label }}: {{ form.firstName(class='form-control') }}</div>
+        <div class="mt-3">{{ form.lastName.label }}: {{ form.lastName(class='form-control') }}</div>
+        <div class="mt-3">{{form.submit(class='btn btn-success w-100')}}</div>
+    </form>
+</div>
+{% endblock content %}

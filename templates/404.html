@@ -1,0 +1,14 @@
+{% extends 'layout/auth_layout.html' %}
+
+{% block title %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/404.css')}}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="error">
+        <h1> 404 Error, Sorry page not found</h1>
+        <a href="{{url_for('login')}}">Back to login page</a>
+    </div>
+</div>
+{% endblock content %}
