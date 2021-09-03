@@ -29,11 +29,19 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             {% endfor %}
-            <form class="mt-5" action="{{ url_for('createBlog') }}" method="POST" class="login-box">
+            <form class="mt-5" action="{{ url_for('updateBlog', blogId=blog.id) }}" method="POST" class="login-box">
                 {{form.hidden_tag()}}
-                {{form.title.label}} {{form.title(class="form-control mb-3 ")}}
+                {{form.title.label}} {{form.title(class="form-control mb-3")}}
                 {{form.content.label}} {{form.content(class="form-control mb-3")}}
-                {{form.submit(class="btn btn-success")}}
+                <div class="btn-container float-end">
+                    <!-- <form action="{{ url_for('updateBlog', id=blog.id) }}" method="POST">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </form> -->
+                    <button type="submit" class="btn btn-primary">Update</button>
+
+                    <a href="{{url_for('deleteBlog', blogId=blog.id)}}" class="btn btn-danger">Delete</a>
+                    <a href="{{url_for('userBlog')}}" class="btn btn-warning">Back</a>
+                </div>
             </form>
         </div>
     </div>

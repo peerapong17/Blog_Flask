@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, validators, PasswordField
+from wtforms import StringField, SubmitField, validators, PasswordField, TextAreaField
 
 
 class RegisForm(FlaskForm):
@@ -32,3 +32,11 @@ class InfoForm(FlaskForm):
     lastName = StringField(
         'LastName', [validators.data_required(), validators.Length(min=4, max=25)])
     submit = SubmitField("OK")
+
+
+class BlogForm(FlaskForm):
+    title = StringField('Title', [validators.data_required(
+    ), validators.Length(min=6, message="Title should be at least 6 characters long")])
+    content = TextAreaField(
+        'Content', [validators.data_required(), validators.Length(min=100, message="Content should be at least 100 characters long")])
+    submit = SubmitField("Create")

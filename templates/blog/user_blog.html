@@ -3,8 +3,48 @@
 
 {% block content %}
 
-<div class="container mt-5">
-    <h1>this is user'blog page</h1>
+<style>
+    .btn-box {
+        float: right;
+        display: flex;
+    }
+</style>
+
+<div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    {% if category == "success" %}
+    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+        {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% else %}
+    <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+        {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <div class="row mt-5">
+        {% for blog in blogs %}
+        <div class="col-12 col-md-6 col-sm-12 col-lg-4 mb-5">
+            <div class="card" style="width: 100%;">
+                <img src="{{url_for('static', filename='images/japan.jpg')}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{blog.title}}</h5>
+                    <p class="card-text">{{blog.content}}</p>
+                    <div class="btn-box">
+                        <a href="{{url_for('updateBlog', blogId=blog.id)}}" class="btn btn-warning  mx-2">Update</a>
+                        <a href="{{url_for('deleteBlog', blogId=blog.id)}}" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 
 {% endblock %}

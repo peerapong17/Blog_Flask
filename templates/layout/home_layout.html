@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
   <title>Basic Flask</title>
 </head>
 
@@ -14,19 +15,19 @@
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="{{ url_for('blog.home') }}">Navbar</a>
+      <a class="navbar-brand" href="{{ url_for('home') }}">Navbar</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
         aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link" href="{{ url_for('blog.createBlog') }}">create</a>
-          <a class="nav-link" href="{{ url_for('blog.userBlog') }}">my blog</a>
+          <a class="nav-link" href="{{ url_for('createBlog') }}">create</a>
+          <a class="nav-link" href="{{ url_for('userBlog') }}">my blog</a>
         </div>
         <div style="flex: 1;"></div>
         <div class="navbar-nav mr-4">
-          <a class="nav-link" href="{{ url_for('blog.userInformation') }}">Information</a>
+          <a class="nav-link" href="{{ url_for('userInformation') }}">Information</a>
         </div>
         <form action="{{ url_for('logout')}}" method="GET">
           <button class="btn btn-danger">Logout</button>
