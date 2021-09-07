@@ -11,6 +11,10 @@
         flex-direction: column;
         padding: 20px;
     }
+
+    .writer{
+        font-size: 20px;
+    }
 </style>
 
 <div class="container">
@@ -20,6 +24,15 @@
             <div class="card-body">
                 <h5 class="card-title">{{blog.title}}</h5>
                 <p class="card-text">{{blog.content}}</p>
+                <span class="badge bg-primary mb-2">{{blog.category}}</span>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span>
+                        BY: <strong class="writer">{{blog.username}}</strong>
+                    </span>
+                    <span>
+                        {{blog.created_on}}
+                    </span>
+                </div>
             </div>
         </div>
         <form action="{{url_for('addComment', blogId=blog.id)}}" action="POST" class="mt-4">
@@ -27,7 +40,8 @@
                 <input type="text" class="form-control" id="comment" name="comment" placeholder="comment">
                 <label for="comment">Comment</label>
                 </input>
-                <button class="btn btn-primary mt-2 float-end">Add Comment</button>
+                <button type="submit" class="btn btn-primary mt-2 float-end">Add
+                    Comment</button>
                 <div class="clearfix mb-3"></div>
         </form>
         {% for comment in comments %}
@@ -41,4 +55,20 @@
     </div>
 
 </div>
+
+<!-- <script>
+    input = document.querySelector("input")
+    const test = (blogId) => {
+        fetch(`http://localhost:5000/comment/${blogId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ comment: input.value })
+        }).then(res => {
+            console.log("dsa")
+        })
+    }
+</script> -->
+
 {% endblock content %}

@@ -29,16 +29,22 @@ class User(db.Model, UserMixin):
 class Blog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     userId = db.Column(db.Integer)
+    username = db.Column(db.String(100), nullable=False)
     title = db.Column(db.String(100), nullable=False)
     content = db.Column(db.String(255), nullable=False)
+    image = db.Column(db.String(255), nullable=False)
+    category = db.Column(db.String(20), nullable=False)
     created_on = db.Column(db.DateTime, server_default=db.func.now())
     updated_on = db.Column(
         db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
-    def __init__(self, title, content, userId):
+    def __init__(self, title, content, userId, username,category, image):
         self.userId = userId
+        self.username = username
         self.title = title
         self.content = content
+        self.category = category
+        self.image = image
 
 
 class Comment(db.Model):

@@ -1,10 +1,10 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, validators, PasswordField, TextAreaField
+from wtforms import StringField, SubmitField, validators, PasswordField, TextAreaField, SelectField, FileField
 
 
 class RegisForm(FlaskForm):
     username = StringField('Username', [validators.data_required(
-    ), validators.Length(min=4, message="Username should be at least 4 characters long")])
+    ), validators.length(min=4, message="Username should be at least 4 characters long")])
     email = StringField(
         'Email', [validators.data_required(), validators.Email()])
     password = PasswordField(
@@ -39,4 +39,6 @@ class BlogForm(FlaskForm):
     ), validators.Length(min=6, message="Title should be at least 6 characters long")])
     content = TextAreaField(
         'Content', [validators.data_required(), validators.Length(min=100, message="Content should be at least 100 characters long")])
+    category = SelectField("category", choices=[(
+        'trv', 'Travel'), ('fd', 'Food'), ('cul', 'Culture'), ('tra', 'Tradition')])
     submit = SubmitField("Create")

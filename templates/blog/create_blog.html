@@ -29,11 +29,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             {% endfor %}
-            <form class="mt-5" action="{{ url_for('createBlog') }}" method="POST" class="login-box">
+            <form class="mt-5" action="{{ url_for('createBlog') }}" method="POST" class="login-box"
+                enctype="multipart/form-data">
                 {{form.hidden_tag()}}
-                {{form.title.label}} {{form.title(class="form-control mb-3 ")}}
+                {{formFile.file(class="form-control mb-3")}} 
+                {{form.title.label}} {{form.title(class="form-control mb-3")}}
                 {{form.content.label}} {{form.content(class="form-control mb-3")}}
-                {{form.submit(class="btn btn-success")}}
+                {{form.category.label}} {{form.category(class="form-control mb-3")}}
+                {{form.submit(class="btn btn-success w-100")}}
+                <a href="{{url_for('home')}}" class="btn btn-warning mt-2 w-100">Back</a>
             </form>
         </div>
     </div>

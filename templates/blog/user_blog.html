@@ -32,10 +32,10 @@
         {% for blog in blogs %}
         <div class="col-12 col-md-6 col-sm-12 col-lg-4 mb-5">
             <div class="card" style="width: 100%;">
-                <img src="{{url_for('static', filename='images/japan.jpg')}}" class="card-img-top" alt="...">
+                <img src="{{blog.image}}" class="card-img-top" alt="{{blog.title}}" height="240">
                 <div class="card-body">
                     <h5 class="card-title">{{blog.title}}</h5>
-                    <p class="card-text">{{blog.content}}</p>
+                    <p class="card-text">{{blog.content[:70]}}</p>
                     <div class="btn-box">
                         <a href="{{url_for('updateBlog', blogId=blog.id)}}" class="btn btn-warning  mx-2">Update</a>
                         <a href="{{url_for('deleteBlog', blogId=blog.id)}}" class="btn btn-danger">Delete</a>
